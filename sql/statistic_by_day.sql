@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS `statistic_by_day` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+ `time` int(10) unsigned NOT NULL,
+  `gid` smallint(6) unsigned NOT NULL COMMENT '渠道',
+  `newImei` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '设备激活',
+  `activeImei` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '活跃设备',
+  `newUid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '新增账号',
+  `activeUid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '活跃账号',
+  `uidCreateRole` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建角色的账号数',
+  `newPid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建角色数',
+  `loginCount` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录次数',
+  `rechUid` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT '账号数',
+  `fRechUid` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT '首冲人数',
+  `rechPid` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT '角色数',
+  `rechOid` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT '订单数',
+  `cashs` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '充值总额',
+  `rechIp` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT 'ip数',
+  `fCashs` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '首冲总额',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `time` (`time`,`gid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

@@ -1,0 +1,14 @@
+<?php
+DEFINE('SERVER_ID',1);
+DEFINE('DB_MYSQL_LOG_HOST'		,	'localhost');
+DEFINE('DB_MYSQL_LOG_USER'		,	'root');
+DEFINE('DB_MYSQL_LOG_PASS'		,	'SDF63Z6GBFG6ZYSSDF4DFA');
+DEFINE('DB_MYSQL_LOG_DBNAME'	,	'platform_user');//'log_king_'.SERVER_ID);
+
+DEFINE('DB_MYSQL_GMT_HOST'		,	'localhost');
+DEFINE('DB_MYSQL_GMT_USER'		,	'root');
+DEFINE('DB_MYSQL_GMT_PASS'		,	'SDF63Z6GBFG6ZYSSDF4DFA');
+DEFINE('DB_MYSQL_GMT_DBNAME'	,	'platform_user');//'log_king_'.SERVER_ID);
+
+
+?>

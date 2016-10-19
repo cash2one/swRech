@@ -1,0 +1,2 @@
+#!/bin/sh 
+find . -path "*\.svn" -prune -o -print|xargs grep "$1" -ns

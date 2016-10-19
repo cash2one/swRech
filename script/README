@@ -1,0 +1,120 @@
+---获取订单并存储数据
+---REDIS_SIMPLE_ORDERID
+local orderid
+orderid=redis.call('incr', KEYS[1])
+if 99900 < orderid then
+	redis.call('SET', KEYS[1], 0)
+end
+return orderid
+
+---REDIS_CHANNEL_DELIVERY
+--orderid,//收到通知发货流程
+if redis.call('EXISTS',KEYS[1]) == 1 then
+		redis.call('SELECT',1)
+		if(redis.call('HSETNX',KEYS[1],'status',1)) == 0 then
+			return 3;
+		end
+		redis.call('SELECT',0)
+		redis.call('HSET',KEYS[1],"cash",KEYS[2])
+		redis.call('SELECT',2)
+		redis.call('LPUSH','SIMPLE_PLATFORM_DELIVERY',KEYS[1])
+        return 1
+else
+        return 2
+end
+
+
+
+
+---- 队列取数据 'SIMPLE_PLATFORM_DELIVERY', SIMPLE_PLATFORM_DELIVERY_BAK'
+---- REDIS_GET_DELIVERY_DATA
+---
+local orderid
+orderid = redis.call('RPOPLPUSH','SIMPLE_PLATFORM_DELIVERY', SIMPLE_PLATFORM_DELIVERY_BAK')
+if orderid == nil then
+	return 1
+end
+if redis.call('EXISTS', orderid) then
+	return redis.call('HMGET',orderid)
+else
+	return 2
+end
+
+
+----发货成功 orderid bankey
+----REDIS_DELIVERY_TO_SERVER_OK
+redis.call('DEL',KEYS[1])
+redis.call('LREM',KEYS[2],1,KEY[1])
+return 1
+
+----发货失败 orderid bankey bak30key
+----REDIS_DELIVERY_TO_SERVER_FAIL
+redis.call('LREM',KEYS[2],1,KEY[1])
+redis.call('LPUSH',KEYS[3],1,KEY[1])
+return 1;
+
+---以下类似
+
+
+
+
+--轮训队列发货
+--弹出 orderid and bak orderid
+--获取orderdata
+--delivery GOOD ok 
+----del orderdata
+----del setnxkey
+----lrem bankey
+--else
+---- push 到 300 秒轮训队列
+--end
+
+--队列发货
+--弹出 orderid and bak orderid
+--获取orderdata
+--delivery GOOD ok 
+----del orderdata
+----del setnxkey
+----lrem bankey
+--else
+-- push 到 30 秒轮训队列
+--end
+
+--轮训队列发货
+--弹出 orderid and bak orderid
+--获取orderdata
+--delivery GOOD ok 
+----del orderdata
+----del setnxkey
+----lrem bankey
+--else
+---- push 到 3600 秒轮训队列
+----lrem bankey
+--end
+
+--轮训队列发货
+--弹出 orderid and bak orderid
+--获取orderdata
+--delivery GOOD ok 
+----del orderdata
+----del setnxkey
+----lrem bankey
+--else
+---- push 到 7200 秒轮训队列
+----lrem bankey
+--end
+
+--轮训队列发货
+--弹出 orderid and bak orderid
+--获取orderdata
+--delivery GOOD ok 
+----del orderdata
+----del setnxkey
+----lrem bankey
+--else
+---- 记录文本LOG
+----lrem bankey
+--end
+
+
+

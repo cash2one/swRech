@@ -1,0 +1,11 @@
+<?php
+//:require_once(PROJECT_ROOT.'core/classd/common.php');
+require_once(PROJECT_ROOT.'core/log.php');
+require_once(PROJECT_ROOT.'core/worker.php');
+require_once(PROJECT_ROOT.'core/task.php');
+require_once(PROJECT_ROOT.'core/cached.php');
+require_once(PROJECT_ROOT.'core/event.php');
+//require_once(PROJECT_ROOT.'core/schedule.php');
+require_once(PROJECT_ROOT.'conf/master.php');
+//require_once(PROJECT_ROOT.'conf/common.php');
+?>

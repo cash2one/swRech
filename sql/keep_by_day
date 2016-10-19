@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS `keep_by_day` (
+  `time` int(11) NOT NULL COMMENT '时间戳',
+  `gid` smallint(5) UNSIGNED NOT NULL COMMENT '渠道ID',
+  `login1` int(11) NOT NULL DEFAULT '0' COMMENT '首登人数',
+  `login2` int(11) NOT NULL DEFAULT '0' COMMENT '次登人数',
+  `login3` int(11) NOT NULL DEFAULT '0' COMMENT '三日人数',
+  `login4` int(11) NOT NULL DEFAULT '0' COMMENT '四日人数',
+  `login5` int(11) NOT NULL DEFAULT '0' COMMENT '五日人数',
+  `login6` int(11) NOT NULL DEFAULT '0' COMMENT '六日人数',
+  `login7` int(11) NOT NULL DEFAULT '0' COMMENT '七日人数',
+  UNIQUE KEY `time` (`time`,`gid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

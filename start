@@ -1,0 +1,132 @@
+#!/usr/bin/env php
+<?php
+DEFINE('MASTER_SERVER_IP'	,	'101.200.232.164');
+define('PROJECT_SIGNLE_FLAG'	, 'TP1');
+define('PROJECT_ROOT'		, __DIR__.'/');
+define('PROJECT_PID_FILE'	, PROJECT_ROOT.'run/worker.pid');
+
+if(empty($argv[1]) || !$argv[1] || strpos('{start|stop|restart|reload|kill|status}', $argv[1]) === false)
+{
+	echo 'Usage: run.php {start|stop|restart|reload|kill|status}'.PHP_EOL;
+	return;
+}
+
+$script = 'ps -ef|grep '.PROJECT_SIGNLE_FLAG.'_ |wc -l';
+
+switch($argv[1])
+{
+	case 'start':
+	        if(file_exists(PROJECT_PID_FILE))
+		{
+	        	echo 'project已经启动了啊，或者其他问题！'.PHP_EOL;
+			return;
+		}
+
+		exec($script, $res);
+
+		if($res[0]>2)
+		{
+			echo '发现有相关标识的进程'.($res[0]-2).'个 启动失败！'.PHP_EOL;
+			return;
+		}
+		break;
+	case 'stop':
+		if(!$pid = @file_get_contents(PROJECT_PID_FILE))
+		{
+			echo 'project没有启动啊，或者其他问题！'.PHP_EOL;
+			return;
+		}
+
+//		require_once __DIR__.'/../conf/protocol.php';
+//		require_once __DIR__.'/../core/classd/json_protocol.php';
+//		require_once __DIR__.'/../core/classd/aes.php';
+//
+//		$client = new swoole_client(SWOOLE_SOCK_TCP, SWOOLE_SOCK_ASYNC);
+//
+//		$client->on("connect", function($cli) {
+//				$data = array(6666,0,'gmt','serv',array('all'));
+//				$cli->send(call_user_func_array(array(BASE_PROTOCOL,'encode'),array($data)));
+//		});
+//
+//		$client->on("receive", function($cli, $data){
+//				echo "Received: ".$data."\n";
+//				$cli->close();
+//		});
+//		$client->on("error", function($cli){
+//				echo "Connect failed\n";
+//				exit();
+//		});
+//		$client->on("close", function($cli){
+//				echo "Connection close\n";
+//				 exit();
+//		});
+//		$client->connect('127.0.0.1', 9503, 0.5);
+		
+		posix_kill($pid,SIGTERM);
+		if(file_exists(PROJECT_PID_FILE))
+			unlink(PROJECT_PID_FILE);
+
+		echo '命令执行成功！'.PHP_EOL;
+		while(1)
+		{
+			$res = NULL;
+			exec($script, $res);
+			if($res[0] < 3)
+				break;
+			echo '还有'.($res[0]-2).'进程没有关闭……'.PHP_EOL;
+			usleep(100000);
+		}
+
+		echo '程序关闭结束'.PHP_EOL;
+		return;
+	case 'restart':
+		if(!$pid = @file_get_contents(PROJECT_PID_FILE))
+			return var_dump('project没有启动啊，或者其他问题！');
+
+		exec($script, $res);
+		$t = $res[0];
+
+		if($t == 2)
+			return var_dump('project 未正常启动 -- 请执行./start status 检查！');
+
+		echo '准备重启，当前进程数:'.$t.PHP_EOL;
+		
+		if(posix_kill($pid, SIGUSR1))
+			echo '重启执行成功！'.PHP_EOL;
+		else
+			echo '重启执行失败！'.PHP_EOL;
+
+		usleep(10000);
+		
+		while(1)
+		{
+			$res = NULL;
+			exec($script, $res);
+			if($res[0] == $t)
+				break;
+			echo '还有'.($t-$res[0]).'进程没有启动……'.PHP_EOL;
+			usleep(100);
+		}
+		echo '重启执行完毕！'.PHP_EOL;
+		return;
+	case 'reload':
+		if(!$pid = @file_get_contents(PROJECT_PID_FILE))
+			return var_dump('project没有启动啊，或者其他问题！');
+		
+		posix_kill($pid, SIGUSR2);
+		return;
+	case 'status':
+		system('ps aux|head -1;ps aux|grep '.PROJECT_SIGNLE_FLAG);
+		system('echo total:;ps aux|grep '.PROJECT_SIGNLE_FLAG.'|wc -l');
+		return;
+	default:
+		echo "unexists cmd ".PHP_EOL;
+		return;
+}
+
+require_once('./core/master.php');
+
+\master::run();
+
+
+?>

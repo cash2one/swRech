@@ -1,0 +1,16 @@
+<?php
+require_once(PROJECT_ROOT."conf/debug.php");
+require_once(PROJECT_ROOT."conf/whitelist.php");
+require_once(PROJECT_ROOT."conf/channel.php");
+require_once(PROJECT_ROOT."conf/game_server.php");
+require_once(PROJECT_ROOT."conf/secret_key.php");
+require_once(PROJECT_ROOT."conf/task.php");
+require_once(PROJECT_ROOT."conf/protocol.php");
+require_once(PROJECT_ROOT."conf/mysqlop.php");
+require_once(PROJECT_ROOT."conf/redisop.php");
+require_once(PROJECT_ROOT."conf/log_define.php");
+require_once(PROJECT_ROOT."conf/ios_price.php");
+require_once(PROJECT_ROOT.'conf/sign.php');
+require_once(PROJECT_ROOT.'conf/platform.php');
+require_once(PROJECT_ROOT.'conf/clSms.php');
+?>

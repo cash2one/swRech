@@ -29,31 +29,31 @@ public	static	function handler($request,$response)
 
 	if(!isset($data['transdata'])) 
 	{
-		$response->end('FAILTURE');
+		$response->end('FAILTURE1');
 		return;
 	}
 
 	if(!$resp = \sign::lenovo_decode($data['transdata'], $data['sign']))
 	{
-		$response->end('FAILTURE');
+		$response->end('FAILTURE2');
 		return;
 	}
 
-	if(!$resp = json_decode($resp, true))
+	if(!$resp = json_decode($data['transdata'], true))
 	{
-		$response->end('FAILTURE');
+		$response->end('FAILTURE3');
 		return;
 	}
 
 	if(!isset($resp['appid']) || $resp['appid'] !== SECRET_LENOVO_APPID)
 	{
-		$response->end('FAILTURE');
+		$response->end('FAILTURE4');
 		return;
 	}
 
 	if(!isset($resp['result']) || $resp['result'] !== 0)
 	{
-		$response->end('FAILTURE');
+		$response->end('FAILTURE5');
 		return;
 	}
 

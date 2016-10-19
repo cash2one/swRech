@@ -47,12 +47,6 @@ public	static	function handler($request,$response)
 			}
 		}
 
-		if(strlen($data['noncepid']) != 8)
-		{
-			$response->end('{"code":4}');
-			return;
-		}
-
 		$gids = ['305'=>"fdasdghr33@1!sgfwdgt%233#$1g"];
 
 		if (!isset($gids[$data['channelid']]))
@@ -109,7 +103,7 @@ public	static	function handler($request,$response)
 		'gid'	=> $data['channelid'],
 		'sid'	=> $data['serverid'],
 		'uid'	=> $data['accountid'],
-		'pid'	=> 0,
+		'pid'	=> $data['noncepid'],
 		'oid'	=> $new_order,
 		'ip'	=> $request->header['x-real-ip'],
 	);

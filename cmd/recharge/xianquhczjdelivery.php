@@ -64,11 +64,11 @@ public	static	function handler($request,$response)
 		return;
 	}
 
-	if( $data['game_seq_num'] !== SECRET_XIANQUHCZJ_APPID)
-	{
-		$response->end('{"code":405}');
-		return;
-	}
+//	if( $data['game_seq_num'] !== SECRET_XIANQUHCZJ_APPID)
+//	{
+//		$response->end('{"code":405}');
+//		return;
+//	}
 
 	$sign = $data['verstring'];
 	unset($data['remark'], $data['verstring']);

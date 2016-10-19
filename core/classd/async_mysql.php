@@ -31,6 +31,8 @@ public	static	function connect()
 		'user'		=>self::$log_user,
 		'password'	=>self::$log_pass,
 		'database'	=>self::$log_dbname,
+		'charset'	=>'utf8',
+		'timeout'	=>10,
 	);
 
 	$mysqli = new swoole_mysql;

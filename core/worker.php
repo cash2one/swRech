@@ -122,6 +122,8 @@ public	static	function deal_request($request,$response)
 	{
 		if(isset($request->get))
 			CORE_DEBUG && write_log('request', $save.http_build_query($request->get));
+		elseif(isset($request->post))
+			CORE_DEBUG && write_log('request', $save.\sign::make_string($request->post));
 		else
 			CORE_DEBUG && write_log('request', $save.$request->rawContent());
 

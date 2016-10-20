@@ -2,7 +2,7 @@
 # 需要安装zlib-devel
 # 先执行make.sql pass
 #
-# 配置conf
+# 配置conf, rsa, temp
 #
 # ./start start
 #

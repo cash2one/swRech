@@ -51,9 +51,6 @@ public	static	function handler($request,$response)
 		SECRET_TIANYOUXMCQ_APPID	=> SECRET_TIANYOUXMCQ_APPKEY,
 		SECRET_TIANYOULJTX_APPID	=> SECRET_TIANYOULJTX_APPKEY,
 		SECRET_TIANYOUXLJ3D_APPID	=> SECRET_TIANYOUXLJ3D_APPKEY,
-		1029	=> 'MTAyOSZ0aWFueW91eGkmeG1jcS50aWFueW91eGkuY29t',
-		1030	=> 'MTAzMCZ0aWFueW91eGkmeHloei50aWFueW91eGkuY29t',
-		1022	=>	'MTAyMiZ0aWFueW91eGkmc2p6Yi50aWFueW91eGkuY29t',
 	);
 
 	if( !isset($secret_key[$data['appid']]) )

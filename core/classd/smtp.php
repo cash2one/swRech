@@ -16,7 +16,7 @@ public $debug = false;
 public $sock;
 
 /* Constractor */
-function __construct($relay_host = "smtp.163.com", $smtp_port = 25,$auth = true,$user='adzzd2004@163.com',$pass='cnmba2006')
+function __construct($relay_host = "smtp.163.com", $smtp_port = 25,$auth = true,$user='4@163.com',$pass='6')
 {
 	$this->debug = FALSE;
 	$this->smtp_port = $smtp_port;
